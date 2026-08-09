@@ -1,0 +1,19 @@
+[
+  {
+    "image": "bear.jpg",
+    "text": "This image depicts a close-up of a brown bear in a natural outdoor setting. The background consists of lush green grass. In the foreground, a large brown bear is positioned centrally.",
+    "note": "COCONut-PanCap validation caption. The bear is mentioned twice; both mentions land in one text mask."
+  },
+  {
+    "image": "baseball.jpg",
+    "text": "This image depicts an outdoor baseball game in progress. A lush green grass outfield in distance. In the foreground, a baseball player is running, while a baseball player holds a brown baseball glove in a pitching stance."
+  },
+  {
+    "image": "plants_women.jpg",
+    "text": "a bush of plant behind middle woman"
+  },
+  {
+    "image": "baseball.jpg",
+    "text": "baseball player . dog . grass . fence"
+  }
+]

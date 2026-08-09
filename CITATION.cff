@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use ConCor-1, please cite the following."
+title: "Vision-Language Grounding as Bidirectional Concept Correspondence"
+authors:
+  - family-names: Zhang
+    given-names: Jieyu
+  - family-names: Gao
+    given-names: Ziqi
+  - family-names: Zettlemoyer
+    given-names: Luke
+  - family-names: Krishna
+    given-names: Ranjay
+year: 2026
+url: "https://uwgzq.github.io/papers/ConCor-1/"
+repository-code: "https://github.com/uwGZQ/ConCor-1"
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: "Vision-Language Grounding as Bidirectional Concept Correspondence"
+  authors:
+    - family-names: Zhang
+      given-names: Jieyu
+    - family-names: Gao
+      given-names: Ziqi
+    - family-names: Zettlemoyer
+      given-names: Luke
+    - family-names: Krishna
+      given-names: Ranjay
+  year: 2026

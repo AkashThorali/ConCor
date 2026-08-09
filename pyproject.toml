@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "concor1"
+version = "1.0.0"
+description = "ConCor-1 — vision-language grounding as bidirectional concept correspondence"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+keywords = [
+    "vision-language-grounding",
+    "concept-correspondence",
+    "phrase-grounding",
+    "referring-expression-segmentation",
+    "open-vocabulary-segmentation",
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "torch>=2.8.0",
+    "torchvision>=0.23.0",
+    "transformers==5.3.0",
+    "safetensors>=0.4.0",
+    "huggingface_hub>=0.30.0",
+    "numpy>=1.24",
+    "pillow>=10.0",
+    "flash-linear-attention>=0.4.1",
+]
+
+[project.optional-dependencies]
+# Reading the released annotation parquets.
+data = ["pyarrow>=14.0", "pycocotools>=2.0.7"]
+# The local Gradio demo.
+demo = ["gradio>=5.0"]
+
+[project.urls]
+Homepage = "https://uwgzq.github.io/papers/ConCor-1/"
+Model = "https://huggingface.co/UWGZQ/ConCor-1"
+Dataset = "https://huggingface.co/datasets/UWGZQ/ConCor-1-Data"
+Demo = "https://huggingface.co/spaces/UWGZQ/ConCor-1-demo"
+
+[tool.setuptools]
+packages = ["concor1"]

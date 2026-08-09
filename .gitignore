@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+.venv/
+venv/
+env/
+
+outputs/
+
+.ipynb_checkpoints/
+.DS_Store
+
+# Local caches
+.triton/
+.hf_cache/
