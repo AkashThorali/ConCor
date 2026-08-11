@@ -4,7 +4,7 @@
 
 ### Vision-Language Grounding as Bidirectional Concept Correspondence
 
-[Jieyu Zhang](https://jieyuz2.github.io)\*, [Ziqi Gao](https://uwgzq.github.io)\*, [Luke Zettlemoyer](https://www.cs.washington.edu/people/faculty/lsz), [Ranjay Krishna](https://www.ranjaykrishna.com)
+[Jieyu Zhang](https://jieyuz2.github.io)\*, [Ziqi Gao](https://uwgzq.github.io)\*, [Luke Zettlemoyer](https://homes.cs.washington.edu/~lsz/), [Ranjay Krishna](https://www.ranjaykrishna.com)
 
 \*Equal contribution
 
