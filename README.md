@@ -8,7 +8,7 @@
 
 \*Equal contribution
 
-[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b)](https://arxiv.org)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b)](https://arxiv.org/abs/2608.07886)
 [![Project page](https://img.shields.io/badge/Project-page-1f6feb)](https://uwgzq.github.io/papers/ConCor-1/)
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20Model-UWGZQ%2FConCor--1-ffcc4d)](https://huggingface.co/UWGZQ/ConCor-1)
 [![Data](https://img.shields.io/badge/%F0%9F%A4%97%20Data-ConCor--1--Data-ffcc4d)](https://huggingface.co/datasets/UWGZQ/ConCor-1-Data)
