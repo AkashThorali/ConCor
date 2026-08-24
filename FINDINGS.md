@@ -2,7 +2,6 @@
 
 **Author:** Akash Thorali
 **Model:** [ConCor-1](https://github.com/RAIVNLab/ConCor) (Zhang, Gao, Zettlemoyer, Krishna 2026)
-**Test notebook:** [INSERT LINK TO NOTEBOOK]
 
 **Goal**: Identify failures in ConCor-1's correspondence predictions. 
 
@@ -87,15 +86,15 @@ Text: "Two remote controls rest on a couch."
 
 **Failure**: None for this case.
 
-** Note:** The "a couch" correspondence has a near-identical mask in both B1 and B2 (area ~184–187k, same centroid), but presence score swings from 0.874 to 0.261 across the two prompts. This instability wasn't observed for foreground objects (cats, remotes) in any test. 
+**Note:** The "a couch" correspondence has a near-identical mask in both B1 and B2, but the presence score swings from 0.874 to 0.261 across the two prompts. This instability wasn't observed for foreground objects (cats, remotes) in any test. 
 
 ![B2 result](./results/B2_unmentioned_entity.png)
 
 ## Test Case C — Negation
 
-Tests whether the model can use a negated clause to disambiguate between two similar candidates (not discussed in paper). 
+Tests whether the model can use a negated clause to disambiguate between two similar candidates (not discussed in the paper). 
 
-### C1 - Negated reference
+### C1 — Negated reference
 
 **Status: FAIL**
 
@@ -116,11 +115,11 @@ Text: "The cat that is not sleeping is looking toward the camera."
 
 Tests whether the model can form a spatial relation between two objects to correctly resolve which one is being referred to. 
 
-### D1 - Resolving via spatial proximity
+### D1 — Resolving via spatial proximity
 
 **Status: PASS**
 
-Text: "The remote control closest to sleeping cat's paw."
+Text: "The remote control closest to the sleeping cat's paw."
 
 | Bridge | Score | Text phrase | Centroid | Area |
 |---|---|---|---|---|
@@ -128,7 +127,7 @@ Text: "The remote control closest to sleeping cat's paw."
 | 2 | 0.702 | "the sleeping cat" | (462, 186) | 58,484 |
 | 149 | 0.155 | "The remote control" | (105, 93) | 4,283 |
 
-**Success:** Correctly produced a separate correspondence for the contextual entity ("the sleeping cat") alongside the target ("the remote control"). The high-confidence remote candidate (0.879, x=349) sits ~3x closer to "the sleeping cat" (x=462) than the low-confidence candidate (0.155, x=105), indicating the spatial region was formed rather than resolved arbitrarily. 
+**Success:** Correctly produced a separate correspondence for the contextual entity ("the sleeping cat") alongside the target ("the remote control"). The high-confidence remote candidate sits ~3x closer to "the sleeping cat" than the low-confidence candidate, indicating the spatial region was formed intentionally rather than resolved arbitrarily. 
 
 **Failure**: None for this case.
 
@@ -155,23 +154,23 @@ Text: "cat . remote control . couch . dog . person . television . blanket . pill
 
 **Success:** Of 20 candidate categories, only 3 are present, and all 17 absent categories were correctly rejected, with no hallucinations.
 
-**Failure:** A low-confidence (0.170) correspondence merging two different absent categories, "blanket" and "pillow," into one small (625px) mask at the bottom edge of the frame. Likely a low-confidence texture guess.
+**Failure:** A low-confidence (0.170) correspondence merging two different absent categories, "blanket" and "pillow," into one small (625px) mask at the bottom edge of the frame. However, this is likely a low-confidence texture guess.
 
 ![E1 result](./results/E1_large_vocab.png)
 
-## Summary and takeaways
+## Conclusion
 
 ### What held up
 
 - **Absence calibration:** reliably avoided hallucinating masks for mentioned-but-absent entities (B1, E1), and avoided over-grounding visible but not mentioned entities (B2).
-- **Basic coreference:** pronoun resolution and repeated mention merging worked correctly.
-- **Instance-level disambiguation:** every multi-cat/multi-remote test produced spatially distinct, correctly positioned masks per instance.
-- **Compositional spatial reasoning (D1):** correctly resolved a two-object spatial relation not explicitly described in the paper's task formulation.
+- **Basic coreference:** pronoun resolution and repeated mention merging worked correctly (A2).
+- **Instance-level disambiguation:** every multi-cat/multi-remote test produced spatially distinct, correctly positioned masks per instance (A1, B1, E1).
+- **Compositional spatial reasoning:** correctly resolved a two-object spatial relation not explicitly described in the paper's task formulation (D1).
 
 ### What broke down
 
 - **Text segmentation under-captures disambiguating modifiers.** "on the left"/"on the right" (A1) and the full negation clause "that is not sleeping" (C1) were both dropped from their spans, even where the underlying object detection was correct. Negation (C1) escalates this issue. 
-- **Presence-head instability for background/supporting-surface objects.** The couch swung from 0.874 to 0.261 across two prompts with an essentially identical mask, not observed for foreground objects. 
-- **Occasional duplicate/degenerate correspondences (A2).** A redundant, oversized mask for a re-mention of an already-grounded entity, only partially discounted by the presence head.
+- **Presence-head instability for background/supporting-surface objects.** The couch swung from 0.874 to 0.261 across two prompts with an essentially identical mask, not observed for foreground objects (B1, B2). 
+- **Occasional duplicate/degenerate correspondences.** A redundant, oversized mask for a re-mention of an already-grounded entity, only partially discounted by the presence head (A2).
 - **Plural-instance confidence hedging.** Splitting a plural referent into per-instance correspondences sometimes hedges the second instance's confidence (A1, D1) and sometimes doesn't (B1). 
 
