@@ -23,18 +23,17 @@ Text: "The cat on the left is curled up asleep. The cat on the right is also lyi
 | 149 | 0.999 | "two black remote controls" | (104, 93) | 4,260 |
 | 320 | 0.677 | "two black remote controls" | (349, 124) | 2,003 |
 
-**Success**: Correspondence pairing and image masks correctly seperated the two cats.
+**Success**: Correspondence pairing and image masks correctly separated the two cats.
 
-**Failure**: The text segmentation head truncated both spans to "The cat," dropping the "on the left" and "on the right", the only two words that differentiate the two mentions of the word. Thus, both correspondences of the word are indistinguishable from their text phrase despite being spatially correct. Additionally, the plural "two black remote controls" split into two per-instance correspondences at different locations, yet the second scored notably lower, indicating a hedged confience on a plural split. 
+**Failure**: The text segmentation head truncated both spans to "The cat," dropping the "on the left" and "on the right", the only two words that differentiate the two mentions of the word. Thus, both correspondences of the word are indistinguishable from their text phrase despite being spatially correct. Additionally, the plural "two black remote controls" split into two per-instance correspondences at different locations, yet the second scored notably lower, indicating a hedged confidence on a plural split. 
 
-[INSERT IMAGE]
+![A1 result](./results/A1_left_right_cat.png)
 
 ### A2 — Pronoun coreference chain
 
 **Status: Mixed — coreference correct, duplicate-mask failure found**
 
-Text: "A cat lies on the couch. It is grey and white. Next to it is another
-cat, and they are both resting near two remote controls."
+Text: "A cat lies on the couch. It is grey and white. Next to it is another cat, and they are both resting near two remote controls."
 
 | Bridge | Score | Text phrase | Centroid | Area |
 |---|---|---|---|---|
@@ -46,7 +45,9 @@ cat, and they are both resting near two remote controls."
 
 **Success:** Correctly resolved to the same cat as "A cat" and "another cat" was properly identified as the second, distinct cat.
 
-**Failure:** Low-confidence duplicate correspondence for the bare word "cat" since a truncated re-mention of the already-captured "A cat" is not a new entity. Its mask is degenerate: 183,878px, roughly 3x larger than either legitimate cat mask, covering ~60% of the frame. Text segmentation produced a redundant span, image segmentation produced an invalid oversized mask, and the presence head only partially down-weighted it. 
+**Failure:** Low-confidence duplicate correspondence for the bare word "cat" since a truncated re-mention of the already-captured "A cat" is not a new entity. Its mask is degenerate: 183,878px, roughly 3x larger than either legitimate cat mask, covering ~60% of the frame. Text segmentation produced a redundant span, image segmentation produced an invalid oversized mask, and the presence head only partially down-weighted it.
+
+![A2 result](./results/A2_pronoun_coreference.png)
 
 ## Test Case B — Hallucinated / absent entities
 
@@ -68,7 +69,7 @@ Text: "A dog sits next to two cats on a couch."
 
 **Failure**: None for this case.
 
-[INSERT IMAGE]
+![B1 result](./results/B1_absent_entity.png)
 
 ### B2 — Object present but not mentioned (cats, when only remotes are named)
 
@@ -86,14 +87,9 @@ Text: "Two remote controls rest on a couch."
 
 **Failure**: None for this case.
 
-**Cross-case note:** the "a couch" correspondence has a near-identical mask
-in both B1 and B2 (area ~184–187k, same centroid), but presence score swings
-from 0.874 to 0.261 across the two prompts. Same object, same mask, same
-phrase — the only variable is unrelated surrounding sentence content. This
-instability wasn't observed for foreground objects (cats, remotes) in any
-test — only for the couch.
+** Note:** the "a couch" correspondence has a near-identical mask in both B1 and B2 (area ~184–187k, same centroid), but presence score swings from 0.874 to 0.261 across the two prompts. This instability wasn't observed for foreground objects (cats, remotes) in any test. 
 
-[INSERT IMAGE]
+![B2 result](./results/B2_unmentioned_entity.png)
 
 ## Test Case C — Negation
 
@@ -112,7 +108,7 @@ Tests whether the model can use a negated clause to disambiguate between two sim
 
 **Failure**: Both bridge tokens produced the identical truncated span "The cat" and the negation clause "that is not sleeping" was dropped from both. This failure is more severe than the one in A1 since the missing words here determine which cat is even being referred to. Low confidence splits across both (0.412, 0.231), significantly below any legitimate single-answer correspondence elsewhere in this evaluation. Reads as the model recognizing ambiguity but having no mechanism to resolve it using the negation.
 
-[INSERT IMAGE]
+![C1 result](./results/C1_negation.png)
 
 ## Test Case D — Compositional/relational language
 
@@ -131,6 +127,8 @@ Tests whether the model can form a spatial relation between two objects to corre
 **Success:** Correctly produced a separate correspondence for the contextual entity ("the sleeping cat") alongside the target ("the remote control"). The high-confidence remote candidate (0.879, x=349) sits ~3x closer to "the sleeping cat" (x=462) than the low-confidence candidate (0.155, x=105), indicating the spatial region was formed rather than resolved arbitrarily. 
 
 **Failure**: None for this case.
+
+![D1 result](./results/D1_spatial_relation.png)
 
 ## Test Case E — Large category-list vocabulary (LVIS-style)
 
@@ -151,9 +149,11 @@ Text: `cat . remote control . couch . dog . person . television . blanket . pill
 | 320 | 0.378 | "remote control" | (349, 125) | 2,076 |
 | 280 | 0.170 | "blanket", "pillow" (merged) | (326, 479) | 625 |
 
-**Success:** of 20 candidate categories, only 3 are present, and all 17 absent categories were correctly rejected, with no hallucinations.
+**Success:** Of 20 candidate categories, only 3 are present, and all 17 absent categories were correctly rejected, with no hallucinations.
 
-**Failure:** a low-confidence (0.170) correspondence merging two different absent categories, "blanket" and "pillow," into one small (625px) mask at the bottom edge of the frame. Likely a low-confidence texture guess.
+**Failure:** A low-confidence (0.170) correspondence merging two different absent categories, "blanket" and "pillow," into one small (625px) mask at the bottom edge of the frame. Likely a low-confidence texture guess.
+
+![E1 result](./results/E1_large_vocab.png)
 
 ## Summary and takeaways
 
@@ -168,6 +168,6 @@ Text: `cat . remote control . couch . dog . person . television . blanket . pill
 
 - **Text segmentation under-captures disambiguating modifiers.** "on the left"/"on the right" (A1) and the full negation clause "that is not sleeping" (C1) were both dropped from their spans, even where the underlying object detection was correct. Negation (C1) escalates this issue. 
 - **Presence-head instability for background/supporting-surface objects.** The couch swung from 0.874 to 0.261 across two prompts with an essentially identical mask, not observed for foreground objects. 
-- **Occasional duplicate/degenerate correspondences (A2).** A redundant, oversized mask for a re-mention of an already-grounded entity, only partially discounted by the presence of the head.
+- **Occasional duplicate/degenerate correspondences (A2).** A redundant, oversized mask for a re-mention of an already-grounded entity, only partially discounted by the presence head.
 - **Plural-instance confidence hedging.** Splitting a plural referent into per-instance correspondences sometimes hedges the second instance's confidence (A1, D1) and sometimes doesn't (B1). 
 
