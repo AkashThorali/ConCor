@@ -87,7 +87,7 @@ Text: "Two remote controls rest on a couch."
 
 **Failure**: None for this case.
 
-** Note:** the "a couch" correspondence has a near-identical mask in both B1 and B2 (area ~184–187k, same centroid), but presence score swings from 0.874 to 0.261 across the two prompts. This instability wasn't observed for foreground objects (cats, remotes) in any test. 
+** Note:** The "a couch" correspondence has a near-identical mask in both B1 and B2 (area ~184–187k, same centroid), but presence score swings from 0.874 to 0.261 across the two prompts. This instability wasn't observed for foreground objects (cats, remotes) in any test. 
 
 ![B2 result](./results/B2_unmentioned_entity.png)
 
@@ -95,9 +95,11 @@ Text: "Two remote controls rest on a couch."
 
 Tests whether the model can use a negated clause to disambiguate between two similar candidates (not discussed in paper). 
 
-### C1 — "The cat that is not sleeping is looking toward the camera."
+### C1 - Negated reference
 
-**Status: FAIL — clearest failure in this evaluation**
+**Status: FAIL**
+
+Text: "The cat that is not sleeping is looking toward the camera."
 
 | Bridge | Score | Text phrase | Centroid | Area |
 |---|---|---|---|---|
@@ -114,9 +116,11 @@ Tests whether the model can use a negated clause to disambiguate between two sim
 
 Tests whether the model can form a spatial relation between two objects to correctly resolve which one is being referred to. 
 
-### D1 — "The remote control closest to the sleeping cat's paw."
+### D1 - Resolving via spatial proximity
 
-**Status: PASS — strongest positive result in this evaluation**
+**Status: PASS**
+
+Text: "The remote control closest to sleeping cat's paw."
 
 | Bridge | Score | Text phrase | Centroid | Area |
 |---|---|---|---|---|
@@ -130,7 +134,7 @@ Tests whether the model can form a spatial relation between two objects to corre
 
 ![D1 result](./results/D1_spatial_relation.png)
 
-## Test Case E — Large category-list vocabulary (LVIS-style)
+## Test Case E — Large category-list vocabulary
 
 Tests single-pass precision over a large candidate list where most categories are absent.
 
@@ -138,7 +142,7 @@ Tests single-pass precision over a large candidate list where most categories ar
 
 **Status: PASS**
 
-Text: `cat . remote control . couch . dog . person . television . blanket . pillow . laptop . book . lamp . plant . window . curtain . rug . mirror . vase . clock . bird . fireplace`
+Text: "cat . remote control . couch . dog . person . television . blanket . pillow . laptop . book . lamp . plant . window . curtain . rug . mirror . vase . clock . bird . fireplace"
 
 | Bridge | Score | Text phrase | Centroid | Area |
 |---|---|---|---|---|
